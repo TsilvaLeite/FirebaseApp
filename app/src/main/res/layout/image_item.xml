@@ -31,11 +31,11 @@
 
 
         <ImageView
+            android:id="@+id/image_item_imageview"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@color/colorAccent"
-            />
+            android:src="@color/colorAccent" />
 
 
     </LinearLayout>

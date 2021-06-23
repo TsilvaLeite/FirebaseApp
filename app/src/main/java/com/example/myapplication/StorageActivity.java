@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.myapplication.models.Upload;
+import com.example.myapplication.util.LoadingDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,6 +36,7 @@ public class StorageActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri=null;
     private EditText editiNome;
+    private Dialog dialog;
 
     //referencia para um nó Realtime
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference("uploads");
@@ -72,6 +75,9 @@ public class StorageActivity extends AppCompatActivity {
     }
 
     private void uploadImageUri(){
+
+        LoadingDialog dialog = new LoadingDialog(this,R.layout.custom_dialog);
+        dialog.startLoadingDialog();
         String tipo = getFileExtension(imageUri);
 
         Date d = new Date();
@@ -90,11 +96,18 @@ public class StorageActivity extends AppCompatActivity {
             .addOnSuccessListener(uri -> {
                 //1.3 -> Criando referência (database) do upload
                 DatabaseReference refUpload = database.push();
+
                 String id = refUpload.getKey();
 
                 Upload upload = new Upload(id, nome, uri.toString());
                 //salvando upload no db
-                refUpload.setValue(upload);
+                refUpload.setValue(upload)
+                .addOnSuccessListener(aVoid -> {
+                    //dialog
+                    dialog.dismissDialog();
+                    Toast.makeText(getApplicationContext(),"Upload feito com sucesso!",Toast.LENGTH_SHORT).show();
+                    finish();
+                });
             });
         })
         .addOnFailureListener(e -> {
