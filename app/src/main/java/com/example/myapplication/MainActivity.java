@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
@@ -94,7 +95,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.startLoadingDialog();
 
         //deletar img no storage
-        StorageReference imageRef = FirebaseDatabase.getInstance().getReferenceFromUrl(upload.getUrl()).imageRef.delete().addOnSuccessListener(aVoid -> {
+        StorageReference imageRef = FirebaseStorage.getInstance()
+                .getReferenceFromUrl(upload.getUrl());
+
+        imageRef.delete()
+                .addOnSuccessListener(aVoid -> {
             database.child(upload.getId()).removeValue().addOnSuccessListener(aVoid1 -> {
                 Toast.makeText(getApplicationContext(),"Item deletado!",Toast.LENGTH_SHORT).show();
             });
