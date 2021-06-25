@@ -78,14 +78,22 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageVH>{
             menu.setHeaderTitle("Selecionar ação");
 
             MenuItem deletar = menu.add(0,1,2,"Deletar");
-            menu.add(0,2,2,"Atualizar");
+            MenuItem atualizar = menu.add(0,2,2,"Atualizar");
 
             deletar.setOnMenuItemClickListener(item -> {
                if(listener!=null){
-                   int position = getAbsoluteAdapterPosition();
+                   int position = getAdapterPosition();
                    listener.onDeletClick(position);
                }
 
+                return true;
+            });
+
+            atualizar.setOnMenuItemClickListener(menuItem -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    listener.onUpdateClick(position);
+                }
                 return true;
             });
         }

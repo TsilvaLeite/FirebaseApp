@@ -1,6 +1,8 @@
 package com.example.myapplication.models;
 
-public class Upload {
+import java.io.Serializable;
+
+public class Upload implements Serializable {
     private String id;
     private String nomeImage;
     private String url;

@@ -1,7 +1,5 @@
 <resources>
-<<<<<<< HEAD
+
     <string name="app_name">My Application</string>
-=======
-    <string name="app_name">FirebaseApp</string>
->>>>>>> 4effd33a6e4a9d17bca867c97e0697ccfc4b5f63
+
 </resources>

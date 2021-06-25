@@ -50,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onUpdateClick(int position) {
-
+                Upload upload = listaUploads.get(position);
+                Intent intent = new Intent(getApplicationContext(),UpdateActivity.class);
+                //Envia o uploada para a outra Activity
+                intent.putExtra("uploads",upload);
+                startActivity(intent);
             }
         });
         recyclerView.setLayoutManager(

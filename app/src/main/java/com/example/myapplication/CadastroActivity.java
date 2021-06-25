@@ -70,7 +70,7 @@ public class CadastroActivity extends AppCompatActivity {
            authResult.getUser().updateProfile(update)
            .addOnCompleteListener(task -> {
                if(task.isSuccessful()){
-                   Toast.makeText(getApplicationContext(),"NOme Usuário criado com sucesso!",
+                   Toast.makeText(getApplicationContext(),"Nome Usuário criado com sucesso!",
                            Toast.LENGTH_LONG).show();
 
                }else{

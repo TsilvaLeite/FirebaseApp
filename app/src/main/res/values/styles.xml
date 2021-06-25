@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-<<<<<<< HEAD
+
     <style name="FormStyle">
 
         <item name="android:layout_width">match_parent</item>
@@ -19,6 +19,6 @@
 
     </style>
 </resources>
-=======
-</resources>
->>>>>>> 4effd33a6e4a9d17bca867c97e0697ccfc4b5f63
+
+
+
