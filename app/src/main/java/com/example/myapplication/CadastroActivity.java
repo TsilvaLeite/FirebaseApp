@@ -7,10 +7,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.models.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class CadastroActivity extends AppCompatActivity {
     private Button btnCadastrar;
@@ -18,6 +22,8 @@ public class CadastroActivity extends AppCompatActivity {
 
     //Referência para autenticação
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
+   // private DatabaseReference database = FirebaseStorage.getInstance().getReference("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,10 @@ public class CadastroActivity extends AppCompatActivity {
                     .Builder()
                     .setDisplayName(nome)
                     .build();
+
+            //Inserir no database
+            User u = new User(authResult.getUser().getUid(),email,nome);
+            database.child(u.getId()).setValue(u);
 
            //Setando nome do usuário
            authResult.getUser().updateProfile(update)

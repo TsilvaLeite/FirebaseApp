@@ -16,4 +16,14 @@
         >
 
     </item>
+
+    <group
+        android:id="@+id/nav_group_2"
+        android:checkableBehavior="single"
+        >
+        <item
+            android:id="@+id/nav_menu_logout"
+            android:title="Sair"
+            />
+    </group>
 </menu>
