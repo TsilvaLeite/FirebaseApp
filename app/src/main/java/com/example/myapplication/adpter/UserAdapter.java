@@ -17,11 +17,20 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.ArrayList;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVH> {
-    protected ArrayList<User> listaUsuarios;
+    protected ArrayList<User> listaContatos;
     protected Context context;
+    private ClickAdapterUser listener;
+
+    private static final int TIPO_ADICINAR = 0;
+    private static final int TIPO_SOLICITAR = 1;
+
+
+    public void setListener(ClickAdapterUser listener){
+        this.listener = listener;
+    }
 
     public UserAdapter(Context c, ArrayList<User> lista){
-        this.listaUsuarios = lista;
+        this.listaContatos = lista;
         this.context = c;
     }
 
@@ -31,21 +40,47 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVH> {
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.user_recycler,parent,false);
 
+        if(viewType == TIPO_SOLICITAR){
+            Button b = v.findViewById(R.id.user_recycler_btn_add);
+            b.setText("SOLICITADO");
+            b.setEnabled(false);
+        }
+
+
+
         return new UserVH(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserVH holder, int position) {
 
-        User u = listaUsuarios.get(position);
+        User u = listaContatos.get(position);
         holder.textEmail.setText(u.getEmail());
         holder.textNome.setText(u.getNome());
 
+        if(!u.getReceiverRequest()) {
+            //caso não adicionou -> cria evento de click
+            holder.onClick();
+        }
+
+        //holder.onClick();
     }
 
     @Override
     public int getItemCount() {
-        return listaUsuarios.size();
+        return listaContatos.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        User contato = listaContatos.get(position);
+        //se o usuário já foi solicitado
+        if(contato.getReceiverRequest()){
+            return TIPO_SOLICITAR;
+        }
+
+
+        return TIPO_ADICINAR;
     }
 
     public class UserVH extends RecyclerView.ViewHolder{
@@ -54,6 +89,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVH> {
         RoundedImageView imgPhoto;
         Button btnAdicionar;
 
+        public void onClick(){
+            btnAdicionar.setOnClickListener(v -> {
+                if(listener!=null){
+                    int position = getAdapterPosition();
+                    listener.adicionarContato(position);
+                }
+            });
+        }
+
         public UserVH(@NonNull View itemView) {
             super(itemView);
             textNome = itemView.findViewById(R.id.user_recycler_nome);
@@ -61,6 +105,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVH> {
             imgPhoto = itemView.findViewById(R.id.user_recycler_photo);
             btnAdicionar = itemView.findViewById(R.id.user_recycler_btn_add);
 
+
+
         }
+    }
+
+    public interface ClickAdapterUser{
+        void adicionarContato(int position);
     }
 }

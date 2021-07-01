@@ -2,6 +2,16 @@ package com.example.myapplication.models;
 
 public class User {
     private String id, email, nome, photoUrl;
+    private boolean receiveRequest;
+
+    public void setReceiveRequest(boolean b){
+        this.receiveRequest = b;
+    }
+
+    public boolean getReceiverRequest(){
+        return  receiveRequest;
+    }
+
     public User(){
 
     }
@@ -42,5 +52,9 @@ public class User {
         this.id = id;
         this.email = email;
         this.nome = nome;
+    }
+
+    public boolean equals(User u){
+        return this.id.equals(u.getId());
     }
 }
